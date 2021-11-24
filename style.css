@@ -42,3 +42,10 @@ body{
     border-radius: 6px;
     position: absolute;
 }
+
+.alien{
+    width: 70px;
+    height: 70px;
+    background: url('./img/alien_min.gif') center;
+    position: absolute;
+}

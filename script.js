@@ -1,89 +1,9 @@
-// const nave = document.getElementById('nave');
-
-// const vel = 5;
-
-// let posX, posY, dirX, dirY, frames;
-// let game = true;
-
-// const controls = {
-//     Down(e){
-//         let tecla = e.keyCode;
-
-//         // Cima & Baixo
-//         if(tecla == 38){
-//             console.log('Cima')
-//             dirY = -1;
-
-//         } else if(tecla == 40){
-//             console.log('Baixo')
-//             dirY = 1;
-//         }
-
-//         // Esquerda & Direita
-//         if(tecla == 37){
-//             console.log('Esquerda');
-//             dirX = -1;
-
-//         } else if(tecla == 39){
-//             console.log('Direita')
-//             dirX = 1;
-//         }
-//     },
-
-//     Up(e){
-//         let tecla = e.keyCode;
-
-//         if(tecla == 38 || tecla == 40){
-//             dirY = 0;
-//         }
-
-//         if(tecla == 37 || tecla == 39){
-//             dirX = 0;
-//         }
-//     }
-// }
-
-// function naveControl(){
-//     posY += dirY * vel;
-//     posX += dirX * vel;
-
-//     nave.style.top = posY;
-//     nave.style.left = posX;
-// }
-
-// function gameLoop(){
-//     if(game){
-//         naveControl();
-//     }
-
-//     frames = requestAnimationFrame(gameLoop)
-// }
-
-// function start(){
-//     dirY = 0;
-//     dirX = 0;
-
-//     let tTelaAltura = window.innerHeight;
-//     let tTelaLargura = window.innerWidth;
-
-//     posY = tTelaAltura / 2;
-//     posX = tTelaLargura / 2;
-
-//     nave.style.top = posY;
-//     nave.style.left = posX;
-
-//     gameLoop();
-// }
-
-// window.addEventListener('load', start);
-// document.addEventListener('keydown', controls.Down);
-// document.addEventListener('keyup', controls.Up);
-
-var diryJ, dirxJ, jog, velJ, pjx, pjy, velT;
+var diryJ, dirxJ, jog, velJ, pjx, pjy, velT, velA;
 var tamTelaW, tamTelaH;
 var jogo;
+var contAliens, painelContAlien, tmpCriaAlien;
 var frames;
-
+var aliensTotal, vidaPlaneta;
 
 
 //Função que determina os eventos quando eu APERTO as teclas.
@@ -122,6 +42,40 @@ function teclaUp() {
 }
 ////////
 
+function criarAlien(){
+    if(jogo){
+        var y = 0;
+        var x = Math.random()*pjx;
+        var alien=document.createElement("div");
+        var att1=document.createAttribute("class");
+        var att2=document.createAttribute("style");
+        att1.value="alien";
+        att2.value="top:"+y+"px;left:"+x+"px";
+        alien.setAttributeNode(att1);
+        alien.setAttributeNode(att2);
+        document.body.appendChild(alien);
+        contAliens--;
+    }
+}
+
+function controlaAlien(){
+    aliensTotal = document.getElementsByClassName('alien');
+    var tam = aliensTotal.length;
+
+    for(let i = 0; i<tam; i++){
+        if(aliensTotal[i]){
+            var pi = aliensTotal[i].offsetTop;
+            pi += velA;
+
+            aliensTotal[i].style.top = pi+"px";
+            if(pi>tamTelaH){
+                vidaPlaneta -= 10;
+                aliensTotal[i].remove();
+            }
+        }
+    }   
+}
+
 function atira(x,y){
  var t=document.createElement("div");
  var att1=document.createAttribute("class");
@@ -134,7 +88,7 @@ function atira(x,y){
 }
 
 function controleTiros(){
-    const tiros = document.getElementsByClassName('tiroJog');
+    var tiros = document.getElementsByClassName('tiroJog');
     var tam = tiros.length;
     for(let i = 0; i<tam; i++){
         if(tiros[i]){
@@ -163,6 +117,7 @@ function gameLoop() {
         //Funções de Controle
         controlaJogador();
         controleTiros();
+        controlaAlien();
     }
     //Função que vai gerir o Loop do game, gerando a animação - OBSERVE A RECURSIVIDADE (gameLoop -> frames -> gameLoop)
     frames = requestAnimationFrame(gameLoop);
@@ -181,14 +136,22 @@ function inicia() {
     pjx = tamTelaW/2;
     pjy = tamTelaH/2;
     velJ = 5;
+    velA = 1;
     velT = 6;
     jog = document.getElementById("nave");
-    //retorna a posição de um elemento especificado.
+    // retorna a posição de um elemento especificado.
     jog.style.top = pjy + "px";
     jog.style.left = pjx + "px";
+
+
+    contAliens = 150;
+    clearInterval(tmpCriaAlien)
+    tmpCriaAlien = setInterval(criarAlien, 1700)
+
+    vidaPlaneta = 300;
+
+
     gameLoop();
-
-
 }
 
 //addEventListener() registra uma única espera de evento em um único alvo(no caso, window).
