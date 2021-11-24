@@ -79,7 +79,7 @@
 // document.addEventListener('keydown', controls.Down);
 // document.addEventListener('keyup', controls.Up);
 
-var diryJ, dirxJ, jog, velJ, pjx, pjy;
+var diryJ, dirxJ, jog, velJ, pjx, pjy, velT;
 var tamTelaW, tamTelaH;
 var jogo;
 var frames;
@@ -133,6 +133,22 @@ function atira(x,y){
     document.body.appendChild(t);
 }
 
+function controleTiros(){
+    const tiros = document.getElementsByClassName('tiroJog');
+    var tam = tiros.length;
+    for(let i = 0; i<tam; i++){
+        if(tiros[i]){
+            var pt = tiros[i].offsetTop;
+            pt -= velT;
+            tiros[i].style.top = pt+"px";
+
+            if(pt<0){
+                tiros[i].remove();
+            }
+        }
+    }
+}
+
 function controlaJogador(){
     pjy += diryJ*velJ;
     pjx += dirxJ*velJ;
@@ -146,6 +162,7 @@ function gameLoop() {
     if(jogo === true){
         //Funções de Controle
         controlaJogador();
+        controleTiros();
     }
     //Função que vai gerir o Loop do game, gerando a animação - OBSERVE A RECURSIVIDADE (gameLoop -> frames -> gameLoop)
     frames = requestAnimationFrame(gameLoop);
@@ -164,6 +181,7 @@ function inicia() {
     pjx = tamTelaW/2;
     pjy = tamTelaH/2;
     velJ = 5;
+    velT = 6;
     jog = document.getElementById("nave");
     //retorna a posição de um elemento especificado.
     jog.style.top = pjy + "px";
