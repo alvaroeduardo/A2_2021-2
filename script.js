@@ -45,7 +45,7 @@ function teclaUp() {
 function criarAlien(){
     if(jogo){
         var y = 0;
-        var x = Math.random()*pjx;
+        var x = Math.random(5, 6)*pjx;
         var alien=document.createElement("div");
         var att1=document.createAttribute("class");
         var att2=document.createAttribute("style");

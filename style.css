@@ -2,14 +2,18 @@
 
 body{
     font-family: 'Roboto', sans-serif;
-    background: url('./img/background.svg');
+    background: url('./img/background.jpg') no-repeat;
+    background-size: 100% 100vh;
     color: white;
+    overflow-y: hidden;
 }
 
 #nave{
     width: 60px;
     height: 60px;
     position: absolute;
+    image-rendering: pixelated;
+
 }
 
 .telaMsg{
@@ -47,5 +51,7 @@ body{
     width: 70px;
     height: 70px;
     background: url('./img/alien_min.gif') center;
+    background-size: contain;
+    image-rendering: pixelated;
     position: absolute;
 }
