@@ -4,6 +4,7 @@ var jogo;
 var contAliens, painelContAlien, tmpCriaAlien;
 var frames;
 var aliensTotal, vidaPlaneta;
+var ie;
 
 
 //Função que determina os eventos quando eu APERTO as teclas.
@@ -122,11 +123,48 @@ function colisaoTiro(tiro){
 
                 )
             ){
+                criaExplosao(aliensTotal[i].offsetLeft, aliensTotal[i].offsetTop);
                 aliensTotal[i].remove();
                 tiro.remove();
             }
         }
     }
+}
+
+function criaExplosao(x, y){
+    if(document.getElementById("explosao"+(ie-1))){
+        document.getElementById("explosao"+(ie-1)).remove();
+    }
+
+    var explosao = document.createElement('div');
+    var img = document.createElement('img');
+
+    var att1 = document.createAttribute('class');
+    var att2 = document.createAttribute('style');
+    var att3 = document.createAttribute('id');
+
+    var att4 = document.createAttribute('src');
+
+    att1.value="explosaoAr";
+    att2.value="top:"+y+"px;left:"+x+"px";
+    att3.value="explosao"+ie;
+
+    att4.value="img/alien_explosion_min.gif";
+
+    explosao.setAttributeNode(att1);
+    explosao.setAttributeNode(att2);
+    explosao.setAttributeNode(att3);
+
+    img.setAttributeNode(att4);
+
+    explosao.appendChild(img);
+
+    document.body.appendChild(explosao);
+
+    
+
+    ie++;
+
 }
 
 function controlaJogador(){
@@ -176,6 +214,8 @@ function inicia() {
 
     vidaPlaneta = 300;
 
+
+    ie = 0;
 
     gameLoop();
 }

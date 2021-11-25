@@ -55,3 +55,9 @@ body{
     image-rendering: pixelated;
     position: absolute;
 }
+
+.explosaoAr{
+    width: 70px;
+    height: 70px;
+    position: absolute;
+}
