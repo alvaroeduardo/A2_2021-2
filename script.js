@@ -96,8 +96,34 @@ function controleTiros(){
             pt -= velT;
             tiros[i].style.top = pt+"px";
 
+            colisaoTiro(tiros[i]);
+
             if(pt<0){
                 tiros[i].remove();
+            }
+        }
+    }
+}
+
+function colisaoTiro(tiro){
+    var tam = aliensTotal.length;
+
+    for(let i = 0; i < tam; i++){
+        if(aliensTotal[i]){
+            if(
+                (
+                    (tiro.offsetTop<=(aliensTotal[i].offsetTop+70))&&
+                    ((tiro.offsetTop+6)>=(aliensTotal[i].offsetTop))
+                )
+                &&
+                (
+                    (tiro.offsetLeft<=(aliensTotal[i].offsetLeft+70))&&
+                    ((tiro.offsetLeft+6)>=(aliensTotal[i].offsetLeft))
+
+                )
+            ){
+                aliensTotal[i].remove();
+                tiro.remove();
             }
         }
     }
