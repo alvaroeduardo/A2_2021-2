@@ -209,9 +209,37 @@ function gameLoop() {
     frames = requestAnimationFrame(gameLoop);
 }
 
+function reinicia(){
+    aliensTotal = document.getElementsByClassName('alien');
+    var tam = aliensTotal.length;
+
+    for(let i = 0; i<tam; i++){
+        if(aliensTotal[i]){
+            aliensTotal[i].remove();
+        }
+    }
+
+    telaMsg.style.display = "none";
+
+    cancelAnimationFrame(frames);
+
+    vidaPlaneta = 300;
+    pjx = tamTelaW/2;
+    pjy = tamTelaH/2;
+    jog.style.top = pjy + "px";
+    jog.style.left = pjx + "px";
+
+    jogo = true;
+
+    clearInterval(tmpCriaAlien)
+    tmpCriaAlien = setInterval(criarAlien, 1700)
+
+    gameLoop();
+}
+
 //Função que organiza a inicialização do jogo
 function inicia() {
-    jogo =true;
+    jogo = false;
     //Inicialização da tela:
     //A propriedade innerHeight retorna a largura da área de conteúdo de uma janela
     tamTelaH = window.innerHeight;
@@ -231,8 +259,6 @@ function inicia() {
 
 
     contAliens = 150;
-    clearInterval(tmpCriaAlien)
-    tmpCriaAlien = setInterval(criarAlien, 1700)
 
     vidaPlaneta = 300;
     barraPlaneta = document.getElementById('barraPlaneta');
@@ -241,8 +267,11 @@ function inicia() {
     ie = 0;
 
     telaMsg = document.getElementById('telaMsg');
+    telaMsg.style.backgroundImage = "url('./img/INICIO.png')";
+    telaMsg.style.display = "block";
 
-    gameLoop();
+    document.getElementById('btnJogar').addEventListener('click', reinicia)
+    
 }
 
 //addEventListener() registra uma única espera de evento em um único alvo(no caso, window).
