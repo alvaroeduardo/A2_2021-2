@@ -19,11 +19,12 @@ body{
 .telaMsg{
     position: absolute;
     margin-left: -25%;
-    top: 50%;
+    top: 10%;
     left: 50%;
-    width: 720;
-    height: 621;
+    width: 720px;
+    height: 621px;
     display: none;
+    background-image: url('./img/DERROTA.png');
 }
 
 #medidorPlaneta{

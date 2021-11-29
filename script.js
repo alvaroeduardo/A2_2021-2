@@ -3,9 +3,9 @@ var tamTelaW, tamTelaH;
 var jogo;
 var contAliens, painelContAlien, tmpCriaAlien;
 var frames;
-var aliensTotal, vidaPlaneta;
+var aliensTotal, vidaPlaneta, barraPlaneta;
 var ie;
-
+var telaMsg;
 
 //Função que determina os eventos quando eu APERTO as teclas.
 function teclaDw() {
@@ -175,6 +175,25 @@ function controlaJogador(){
     jog.style.top = pjy + "px";
     jog.style.left = pjx + "px";
 }
+
+function gerenciaGame(){
+    barraPlaneta.style.width = vidaPlaneta+"px";
+
+    if(contAliens <= 0){
+        jogo = false;
+        clearInterval(tmpCriaAlien);
+        telaMsg.style.backgroundImage = "url('./img/VITORIA.png')";
+        telaMsg.style.display = "block";
+    }
+
+    if(vidaPlaneta <= 0){
+        jogo = false;
+        clearInterval(tmpCriaAlien);
+        telaMsg.style.backgroundImage = "url('./img/DERROTA.png')";
+        telaMsg.style.display = "block";
+    }
+}
+
 function gameLoop() {
     //"If "jogo" for TRUE...
     if(jogo === true){
@@ -183,6 +202,9 @@ function gameLoop() {
         controleTiros();
         controlaAlien();
     }
+
+    gerenciaGame();
+
     //Função que vai gerir o Loop do game, gerando a animação - OBSERVE A RECURSIVIDADE (gameLoop -> frames -> gameLoop)
     frames = requestAnimationFrame(gameLoop);
 }
@@ -213,9 +235,12 @@ function inicia() {
     tmpCriaAlien = setInterval(criarAlien, 1700)
 
     vidaPlaneta = 300;
-
+    barraPlaneta = document.getElementById('barraPlaneta');
+    barraPlaneta.style.width = vidaPlaneta+"px";
 
     ie = 0;
+
+    telaMsg = document.getElementById('telaMsg');
 
     gameLoop();
 }
